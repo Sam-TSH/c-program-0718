@@ -2,15 +2,6 @@
 # include <math.h>
 
 
-double T = 0;
-double dt = 0.01;
-double lamda = 0.1;
-double gamma = 1;
-
-struct coord H = {0,0,1};
-struct coord S = {1,0,0};
-struct coord S_anal = {0,0,0};
-
 struct coord{
 	double x;
 	double y;
@@ -27,10 +18,10 @@ struct coord vector_product(struct coord v1,struct coord v2){
 	return result;
 }
 
-struct coord Get_k_LLG_equation(struct coord S_LLG){
+struct coord Get_k_LLG_equation(struct coord S_LLG,struct coord H_LLG, double gamma, double lamda){
 
-  struct coord SxH = vector_product(S_LLG, H);
-  struct coord SxSxH = vector_product(S_LLG, vector_product(S_LLG, H));
+  struct coord SxH = vector_product(S_LLG, H_LLG);
+  struct coord SxSxH = vector_product(S_LLG, vector_product(S_LLG, H_LLG));
 
   struct coord k_LLG;
   k_LLG.x = -gamma / (1 + pow(lamda, 2.0)) * (SxH.x + lamda * SxSxH.x);
@@ -40,6 +31,7 @@ struct coord Get_k_LLG_equation(struct coord S_LLG){
   return k_LLG;
 }
 
+
 int main(){
 	
 	FILE *fptr_s;
@@ -47,25 +39,34 @@ int main(){
 
 
 for (int i=0; i<5000; i++) {
+    double T = 0;
+    double dt = 0.01;
+    double lamda = 0.1;
+    double gamma = 1;
+
+    struct coord H = {0,0,1};
+    struct coord S = {1,0,0};
+    struct coord S_anal = {0,0,0};
+
     struct coord k1, k2, k3, k4;
     struct coord S_temp;
 
-    k1 = Get_k_LLG_equation(S);
+    k1 = Get_k_LLG_equation(S,H,gamma,lamda);
 
     S_temp.x = S.x + 0.5 * dt * k1.x;
     S_temp.y = S.y + 0.5 * dt * k1.y;
     S_temp.z = S.z + 0.5 * dt * k1.z;
-    k2 = Get_k_LLG_equation(S_temp);
+    k2 = Get_k_LLG_equation(S_temp,H,gamma,lamda);
 
     S_temp.x = S.x + 0.5 * dt * k2.x;
     S_temp.y = S.y + 0.5 * dt * k2.y;
     S_temp.z = S.z + 0.5 * dt * k2.z;
-    k3 = Get_k_LLG_equation(S_temp);
+    k3 = Get_k_LLG_equation(S_temp,H,gamma,lamda);
 
     S_temp.x = S.x + dt * k3.x;
     S_temp.y = S.y + dt * k3.y;
     S_temp.z = S.z + dt * k3.z;
-    k4 = Get_k_LLG_equation(S_temp);
+    k4 = Get_k_LLG_equation(S_temp,H,gamma,lamda);
 
     S.x += dt * (k1.x + 2 * k2.x + 2 * k3.x + k4.x) / 6;
     S.y += dt * (k1.y + 2 * k2.y + 2 * k3.y + k4.y) / 6;
