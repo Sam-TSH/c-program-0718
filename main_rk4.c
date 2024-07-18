@@ -35,7 +35,7 @@ struct coord Get_k_LLG_equation(struct coord S_LLG,struct coord H_LLG, double ga
 int main(){
 	
 	FILE *fptr_s;
-	fptr_s = fopen("20240718_demo.txt","w");
+	fptr_s = fopen("20240718_demo_rk4.txt","w");
 
   double T = 0;
   double dt = 0.01;
