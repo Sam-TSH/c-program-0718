@@ -24,7 +24,7 @@ struct coord vector_product(struct coord v1,struct coord v2){
 int main(){
 	
 	FILE *fptr_s;
-	fptr_s = fopen("20240509_demo.txt","w");
+	fptr_s = fopen("20240718_demo_euler.txt","w");
 
 	double lamda = 0.1;
 	double gamma = 1;
