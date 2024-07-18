@@ -37,16 +37,18 @@ int main(){
 	FILE *fptr_s;
 	fptr_s = fopen("20240718_demo.txt","w");
 
+  double T = 0;
+  double dt = 0.01;
 
-for (int i=0; i<5000; i++) {
-    double T = 0;
-    double dt = 0.01;
-    double lamda = 0.1;
-    double gamma = 1;
+  double lamda = 0.1;
+  double gamma = 1;
 
-    struct coord H = {0,0,1};
-    struct coord S = {1,0,0};
-    struct coord S_anal = {0,0,0};
+  struct coord H = {0,0,1};
+  struct coord S = {1,0,0};
+  struct coord S_anal = {0,0,0};
+
+
+  for (int i=0; i<5000; i++) {
 
     struct coord k1, k2, k3, k4;
     struct coord S_temp;
@@ -77,7 +79,7 @@ for (int i=0; i<5000; i++) {
 		S_anal.z = sinh(lamda*gamma*H.z*T/(1+pow(lamda,2)))/cosh(lamda*gamma*H.z*T/(1+pow(lamda,2)));
 
 		
-		T = T + dt;
+		T += dt;
 
 		fprintf(fptr_s, "%f, %f ,%f, %f, %f, %f, %f\n",T,S.x,S.y,S.z,S_anal.x-S.x,S_anal.y-S.y,S_anal.z-S.z);
 	}
