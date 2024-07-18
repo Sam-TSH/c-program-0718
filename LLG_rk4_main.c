@@ -36,9 +36,7 @@ int main(){
 	
 	FILE *fptr_s;
 	fptr_s = fopen("20240718_demo_rk4.txt","w");
-
-
-for (int i=0; i<5000; i++) {
+  
     double T = 0;
     double dt = 0.01;
     double lamda = 0.1;
@@ -50,6 +48,9 @@ for (int i=0; i<5000; i++) {
 
     struct coord k1, k2, k3, k4;
     struct coord S_temp;
+
+
+for (int i=0; i<5000; i++) {
 
     k1 = Get_k_LLG_equation(S,H,gamma,lamda);
 
